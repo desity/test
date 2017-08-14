@@ -1,0 +1,137 @@
+{% extends 'testapp/base.html' %}
+
+{% block content %}
+        <script>
+            if ("{{ message }}"!="")
+            {
+            bootbox.alert({
+            title: "Information from test project",
+            message: "<b>{{ message }}</b>",
+            size: 'small'
+                            });
+            }
+        </script>
+{{ messageprogect }}
+    <form class="form-signin" method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="row vertical-center" style="min-width: 500px !important;">
+        <div class="col-md-3 col-lg-3 col-sm-0 col-xs-0"></div>
+        <div class="col-md-6 col-lg-6 col-sm-8 col-xs-8 formsss">
+            <center><h1 class="form-signin-heading text-muted">Welcome into test project.</h1></center>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#signin">Sign In</a></li>
+                <li><a data-toggle="tab" href="#signup">Sign Up</a></li>
+                <li><a data-toggle="tab" href="#forgot">Forgot</a></li>
+            </ul>
+            <div class="tab-content">
+                 <div id="signin" class="tab-pane fade in active">
+		            <input id="login_in" type="login" name = "Login" class="form-control" placeholder="Login" required="" autofocus="">
+		            <input id="pass_in" type="password" name = "Password" class="login_in form-control" placeholder="Password" required="">
+		            <button onclick="signinenable()" class="btn btn-lg btn-primary btn-block" type="submit" name="_signin">Sign In</button>
+                 </div>
+                <div id="signup" class="tab-pane fade">
+                    <input id="email_up" type="email" name = "Email" class="form-control" placeholder="Email address" required="" autofocus="">
+                    <input id="name_up" type="text" name = "FirstName" class="form-control" placeholder="First Name" required="">
+                    <input id="lname_up" type="text" name = "LastName" class="form-control" placeholder="Last Name" required="">
+                    <input id="login_up" type="text" name = "Login_up" class="form-control" placeholder="Login" required="">
+                    <input id="password_up1" type="password" name = "Password1" class="form-control" placeholder="Password" required="">
+                    <input id="password_up2" type="password" name = "Password2" class="form-control" placeholder="Password repeat" required="">
+                    <button onclick="return Validate()" class="btn btn-lg btn-primary btn-block" type="submit" name="_signup">Sign UP</button>
+                </div>
+                <div id="forgot" class="tab-pane fade">
+                    <input id="email_frg" type="email" name = "Emailfrg" class="form-control" placeholder="Email address" required="" autofocus="">
+                    <input id="name_frg" type="text" name = "FirstNamefrg" class="form-control" placeholder="First Name" required="">
+                    <input id="lname_frg" type="text" name = "LastNamefrg" class="form-control" placeholder="Last Name" required="">
+                    <button onclick="forgotenable()" class="btn btn-lg btn-primary btn-block pure-button pure-button-primary" type="submit" name="_forgot">Try to mention</button>
+                </div>
+            </div>
+            <a href="/admin/" class="btn btn-info btn-block btn-lg" role="button"><span class="glyphicon glyphicon-log-in" style="font-size: 20px;"></span> I'm an admin</a>
+
+            <script src='https://www.google.com/recaptcha/api.js'></script>
+            <div class="captcha"><div style="align-items: center; !important;" class="g-recaptcha" data-sitekey="6LclRCcUAAAAABv7jKgdjwHCwUVHEpa-ah-Uah5Y"></div></div>
+        </div>
+        </div>
+        <script>
+
+    function Validate() {
+        var password = document.getElementById("password_up1").value;
+        var confirmPassword = document.getElementById("password_up2").value;
+        if (password != confirmPassword) {
+            bootbox.alert({
+            title: "Information from test project",
+            message: "<b>Passwords do not match.</b>",
+            size: 'small'
+                            });
+            return false;
+        }
+        return true;
+    }
+            function signupenable()
+                            {
+                                document.getElementById("login_in").required = false;
+                                document.getElementById("pass_in").required = false;
+
+                                document.getElementById("email_frg").required = false;
+                                document.getElementById("name_frg").required = false;
+                                document.getElementById("lname_frg").required = false;
+
+                                document.getElementById("email_up").required = true;
+                                document.getElementById("name_up").required = true;
+                                document.getElementById("lname_up").required = true;
+                                document.getElementById("login_up").required = true;
+                                document.getElementById("password_up1").required = true;
+                                document.getElementById("password_up2").required = true;
+                            }
+            function signinenable()
+                            {
+                                document.getElementById("login_in").required = true;
+                                document.getElementById("pass_in").required = true;
+
+                                document.getElementById("email_frg").required = false;
+                                document.getElementById("name_frg").required = false;
+                                document.getElementById("lname_frg").required = false;
+
+                                document.getElementById("email_up").required = false;
+                                document.getElementById("name_up").required = false;
+                                document.getElementById("lname_up").required = false;
+                                document.getElementById("login_up").required = false;
+                                document.getElementById("password_up1").required = false;
+                                document.getElementById("password_up2").required = false;
+                            }
+            function forgotenable()
+                            {
+                                document.getElementById("login_in").required = false;
+                                document.getElementById("pass_in").required = false;
+
+                                document.getElementById("email_up").required = false;
+                                document.getElementById("name_up").required = false;
+                                document.getElementById("lname_up").required = false;
+                                document.getElementById("login_up").required = false;
+                                document.getElementById("password_up1").required = false;
+                                document.getElementById("password_up2").required = false;
+
+                                document.getElementById("email_frg").required = true;
+                                document.getElementById("name_frg").required = true;
+                                document.getElementById("lname_frg").required = true;
+                            }
+                            $(function(){
+                              var hash = window.location.hash;
+                              hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+                              $('.nav-tabs a').click(function (e) {
+                                $(this).tab('show');
+                                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                                window.location.hash = this.hash;
+                                $('html,body').scrollTop(scrollmem);
+                              });
+                            });
+
+        </script>
+  	</form>
+
+
+
+
+
+{% endblock %}

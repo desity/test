@@ -1,0 +1,24 @@
+{% extends 'testapp/base.html' %}
+
+{% block content %}
+                <br> <center><h3><font color="red">{{ message }}</font></h3></center>
+{{ messageprogect }}
+    <form class="form-signin" method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="row vertical-center">
+        <div class="col-md-4 col-lg-4"></div>
+        <div class="col-md-3 col-lg-3">
+		    <center><h1 class="form-signin-heading text-muted">Welcome into test project.</h1></center>
+		    <input type="email" name = "Email" class="form-control" placeholder="Email address" required="" autofocus="">
+		    <input type="text" name = "FirstName" class="form-control" placeholder="First Name" required="">
+            <input type="text" name = "LastName" class="form-control" placeholder="Last Name" required="">
+		    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+            <a href="/admin/" class="btn btn-info btn-block btn-lg" role="button"><span class="glyphicon glyphicon-log-in" style="font-size: 20px;"></span> I'm an admin</a>
+        </div>
+        </div>
+	</form>
+
+
+
+{% endblock %}

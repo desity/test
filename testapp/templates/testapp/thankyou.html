@@ -1,0 +1,9 @@
+{% extends 'testapp/base.html' %}
+
+{% block content %}
+    <h1><br>Dear {{ FirstName }} {{ LastName }}</h1>
+     <h2><br> {{ Message }}</h2>
+    <h3><br>Your mark will sent to: {{ Email }} in a few seconds</h3>
+    <a href="{% url 'test_list'%}" class="btn btn-info" role="button">Try to pass one more</a>
+
+{% endblock %}

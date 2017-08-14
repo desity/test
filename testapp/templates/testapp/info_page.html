@@ -1,0 +1,7 @@
+{% extends 'testapp/base.html' %}
+
+{% block content %}
+     <h1><br>{{ Message }}</h1>
+    <br>
+    <a href="{% url 'home'%}" class="btn btn-info" role="button">Return to start page</a>
+{% endblock %}

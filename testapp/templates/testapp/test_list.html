@@ -1,0 +1,70 @@
+{% extends 'testapp/base.html' %}
+
+{% block content %}
+    <form method="POST">
+        <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#demo" style="font-size: 20px;"><span
+                class="glyphicon glyphicon-menu-hamburger"></span>History: {{ FirstName }} {{ LastName }}</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="logout" class="btn btn-link pull-right" type="submit"><span class="glyphicon glyphicon-log-out"
+                                                                                  style="font-size: 20px;">Logout</span></button>
+        <button name="gotoadmin" class="btn btn-link pull-right" type="submit"><span class="glyphicon glyphicon-user"
+                                                                                     style="font-size: 20px;">Go_to_Admin</span></button>
+        <script>
+            if ("{{ message }}"!="")
+            {
+            bootbox.alert({
+            title: "Information from test project",
+            message: "<b>{{ message }}</b>",
+            size: 'small'
+                            });
+            }
+        </script>
+    </form>
+
+    <div id="demo" class="collapse" style="position: relative; background-color: #81c2ba">
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Test Name</th>
+                <th>Passing Date</th>
+                <th>Test status</th>
+                <th>Test status description</th>
+                <th>Mark</th>
+              </tr>
+            </thead>
+            {% for test_list in apphist %}
+            <tbody>
+              <tr class="info">
+                <td>{{ test_list.test_name }}</td>
+                <td>{{ test_list.passing_date }}</td>
+                <td>{{ test_list.test_status }}</td>
+                <td>{{ test_list.status_description }}</td>
+                <td>{{ test_list.mark_pass }}</td>
+              </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+
+    {% for test_list in tests %}
+           <a style="white-space: normal;" href="{% url 'question_list' pk=test_list.pk%}" class="btn btn-info btn-tests" role="button">
+                <table class="table">
+                    <tbody>
+                        <tr style="border: hidden;">
+                            <td style="font-weight: bold; width: 20%">Test name:</td>
+                            <td>{{ test_list.test_name }}</td>
+                        </tr>
+                        <tr  style="border: hidden;">
+                            <td style="font-weight: bold;">Questions count:</td>
+                            <td>{{ test_list.q_count }}</td>
+                        </tr>
+                        <tr  style="border: hidden;">
+                            <td style="font-weight: bold;">Description:</td>
+                            <td>{{ test_list.test_descr }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+           </a>
+    {% endfor %}
+{% endblock content %}

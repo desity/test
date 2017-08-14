@@ -1,0 +1,95 @@
+{% extends 'testapp/base.html' %}
+{% block content %}
+
+        <div class="container">
+                    <div class="pull-right"><h4>{{ FirstName }} {{ LastName }}</h4></div></div>
+This test will be autosubmited in: <span id="timer"></span>
+
+<script type="text/javascript">
+  document.getElementById('timer').innerHTML =
+      {{ minutes }} + ":" + {{ seconds }};
+startTimer();
+
+function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){m=m-1}
+  if(m<0){$( "#submit_test" ).submit();return false; }
+
+  document.getElementById('timer').innerHTML =
+    m + ":" + s;
+  setTimeout(startTimer, 1000);
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
+</script>
+
+
+    <form method="POST" id="submit_test">
+    {% csrf_token %}
+    {{ form.as_p }}
+              <div class="container">
+                        <script>
+                            var i=1, p=0
+                        </script>
+                <div class="progress">
+                <div id="statusbar" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                <span class="sr-only">70% Complete</span>
+                </div>
+                </div>
+            <div class="tab-content">
+            Test name: {{ tname }}<br>
+            Count of questions: {{ cquests }}
+                {% for question_list in quests %}
+                    <div id="menu{{ question_list.id }}" class="tab-pane fade">
+                        Question number <script>document.write(i)</script> : {{ question_list.question }}<br>
+                        <div class="checkbox"><label style="font-size: 1em"><input type="checkbox" value="1" name="ch{{ question_list.id }}.1"><span class="cr"><i class="cr-icon fa fa-check"></i></span>а). {{ question_list.choice1 }}</label></div>
+                        <div class="checkbox"><label style="font-size: 1em"><input type="checkbox" value="1" name="ch{{ question_list.id }}.2"><span class="cr"><i class="cr-icon fa fa-check"></i></span>b). {{ question_list.choice2 }}</label></div>
+                        <div class="checkbox"><label style="font-size: 1em"><input type="checkbox" value="1" name="ch{{ question_list.id }}.3"><span class="cr"><i class="cr-icon fa fa-check"></i></span>c). {{ question_list.choice3 }}</label></div>
+                        <div class="checkbox"><label style="font-size: 1em"><input type="checkbox" value="1" name="ch{{ question_list.id }}.4"><span class="cr"><i class="cr-icon fa fa-check"></i></span>d). {{ question_list.choice4 }}</label></div>
+                        <div class="checkbox"><label style="font-size: 1em"><input type="checkbox" value="1" name="ch{{ question_list.id }}.5"><span class="cr"><i class="cr-icon fa fa-check"></i></span>e). {{ question_list.choice5 }}</label></div>
+                        <a id="next" onclick=myFunction() data-toggle="tab" href="#" class="btn btn-info next" role="button">Next question</a>
+                        <button id="submitbutton" style="display: none;" class="btn btn-danger" type="submit">Submit test</button>
+                        <script>
+
+                            if (i==1)
+                            {
+
+                                document.getElementById("menu"+{{ question_list.id }}).className = "tab-pane fade in active";
+                            }
+                            document.getElementById("menu" +{{ question_list.id }}).id = "nmenu" + i.toString();
+                            if (i<{{ quests.count }})
+                            {
+                                var i = i + 1;
+                                document.getElementById("next").href = "#nmenu" + i.toString();
+                                document.getElementById("next").id = "#next" + i.toString();
+                                document.getElementById("submitbutton").id = "submitbutton" + i.toString();
+                            }
+                            else
+                            {
+                                document.getElementById("next").style.display = 'none';
+                                document.getElementById("submitbutton").style.display = 'block';
+                            }
+
+                            function myFunction()
+                            {
+                                p=p+(100/{{ quests.count }});
+                                document.getElementById("statusbar").style = "width:"+p.toString()+"%";
+
+                            }
+
+
+                        </script>
+                    </div>
+                {% endfor %}
+            </div>
+              </div>
+    </form>
+{% endblock %}
