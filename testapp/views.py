@@ -52,7 +52,7 @@ System is checking user Login and Email for prevention of duplicate accounts dat
 
 def home(request):
     request.session['submited'] = False
-    if request.session.get('loged'):
+    if request.session.get('loged') and not request.GET.get('activate'):
         return HttpResponseRedirect('/testlist/')
     if request.method == 'POST':
         if request.POST.get('g-recaptcha-response'):
